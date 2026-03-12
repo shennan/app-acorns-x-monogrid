@@ -1,0 +1,54 @@
+{
+  "env": {
+    "es6": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "react-app",
+    "eslint:recommended",
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 9
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "rules": {
+    "space-before-function-paren": ["error", "always"],
+    "object-curly-newline": ["error", { "consistent": true }],
+    "indent": ["warn", 2, {"SwitchCase": 1}],
+    "linebreak-style": ["error", "unix"],
+    "semi": ["error", "never"],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "max-len": ["error", { "code": 200, "ignoreStrings": true, "ignoreComments": true, "ignoreTemplateLiterals": true }],
+    "quote-props": ["error", "consistent"],
+    "no-self-assign": 0,
+    "no-use-before-define": "off",
+    "padded-blocks": "off",
+    "curly": "off",
+    "comma-dangle": "off",
+    "nonblock-statement-body-position": "off",
+    "no-plusplus": "off",
+    "class-methods-use-this": "off",
+    "no-shadow": "off",
+    "arrow-parens": "off",
+    "no-underscore-dangle": "off",
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": true, "peerDependencies": false}],
+    "import/extensions": "off",
+    "eol-last": "off",
+    "no-nested-ternary": "off"
+  }
+}

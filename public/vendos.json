@@ -1,0 +1,28 @@
+{
+  "App": {
+    "appConfiguration": [
+      {
+        "id": "testMode",
+        "label": "Test Mode",
+        "description": "Use when testing the machine. When live, turn off!",
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "id": "timeoutSeconds",
+        "label": "App Timeout Seconds",
+        "description": "The app will return to landing if selection or payment pages are idle for this number of seconds",
+        "type": "number",
+        "value": 30
+      }
+    ],
+    "overviewConfigurationIds": [
+      "timeoutSeconds",
+      "testMode"
+    ]
+  },
+  "Settings": {
+    "screenAspectRatio": "portrait",
+    "showResources": ["Vending"]
+  }
+}

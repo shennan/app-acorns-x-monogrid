@@ -1,0 +1,50 @@
+@font-face {
+  font-family: 'Bold-Alo';
+  src: url('./assets/Alo-semi.ttf') format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Regular-Alo';
+  src: url('./assets/Alo-medium.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Bold';
+  src: url('./assets/Arquitecta.otf') format('opentype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Regular';
+  src: url('./assets/ArquitectaBook.otf') format('opentype');
+  font-weight: 400;
+}
+
+body {
+
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Regular';
+  font-size: 100px;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #F0F0F0;
+
+  *:focus {
+
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+
+  }
+
+  * {
+
+    user-select: none;
+
+  }
+}
