@@ -1,6 +1,5 @@
 import { StateMachineInput, useRive, useStateMachineInput } from '@rive-app/react-webgl2'
 import { useCallback, useMemo } from 'react'
-import { useIntervalEffect } from '@react-hookz/web'
 import { RIVE_SRC, RIVE_STATE_MACHINE_ID } from './constants'
 
 export const useRiveMechanic = () => {
@@ -13,7 +12,7 @@ export const useRiveMechanic = () => {
   const cardTapSuccess = useStateMachineInput(rive, RIVE_STATE_MACHINE_ID, 'cardTapSuccess')
   const productSuccessfullyVended = useStateMachineInput(rive, RIVE_STATE_MACHINE_ID, 'productSuccessfullyVended')
   const productUnsuccessfullyVended = useStateMachineInput(rive, RIVE_STATE_MACHINE_ID, 'unSuccessfullyVended')
-  const malfunctionError = useStateMachineInput(rive, RIVE_STATE_MACHINE_ID, 'malfunctionError')
+  // const malfunctionError = useStateMachineInput(rive, RIVE_STATE_MACHINE_ID, 'malfunctionError')
   const first25 = useStateMachineInput(rive, RIVE_STATE_MACHINE_ID, 'showButton25_1')
   const second25 = useStateMachineInput(rive, RIVE_STATE_MACHINE_ID, 'showButton25_2')
   const third25 = useStateMachineInput(rive, RIVE_STATE_MACHINE_ID, 'showButton25_3')
@@ -96,7 +95,7 @@ export const useRiveMechanic = () => {
 
       })
 
-      console.log('Buttons hidden:', showButtonIndices.join(','))
+      console.log('Buttons shown:', showButtonIndices.join(','))
 
     }
 

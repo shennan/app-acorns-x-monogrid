@@ -1,3 +1,5 @@
+import { ButtonProps } from '@vendos/app-components'
+
 export const RIVE_STATE_MACHINE_ID = 'State Machine 1'
 export const RIVE_SRC = '/vendingmachinescreen_032326_6.riv'
 
@@ -18,9 +20,17 @@ export const BUTTON_GRID = {
   gap: 10,
 }
 
+export const BUTTON_CONFIG: ButtonProps = {
+  paddingTop: 45,
+  paddingBottom: 50,
+  fontSize: '62px',
+  backgroundColour: 'black'
+}
+
 export interface AppConfiguration {
   testMode: boolean
   timeoutSeconds: number
+  vendOnCardErrors: boolean
 }
 
 export interface AppState {

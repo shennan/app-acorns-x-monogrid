@@ -69,3 +69,14 @@ export const persistDataToVendOS = (data: Omit<AppState, 'screen'>, config: AppC
 }
 
 export const getDataSetName = ({ testMode = false }: Pick<Partial<AppConfiguration>, 'testMode'>) => (testMode ? 'journeys-test' : 'journeys')
+
+export const persistCardTapResult = (result: string, config: AppConfiguration) => {
+
+  const setName = config.testMode ? 'taps' : 'taps-test'
+
+  VendOS.Data.local.createSet({ name: setName }).then(() => {
+
+    VendOS.Data.local.createRecord({ set: setName, data: { result } })
+
+  })
+}

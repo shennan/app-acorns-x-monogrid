@@ -22,10 +22,15 @@
 
     position: absolute;
     left: 160px;
-    top: 1680px;
+    top: 1690px;
     width: 750px;
     height: 176px;
 
+    .Button {
+
+      font-family: 'Regular';
+
+    }
   }
 
   &__year-buttons {

@@ -14,15 +14,23 @@
         "description": "The app will return to landing if selection or payment pages are idle for this number of seconds",
         "type": "number",
         "value": 30
+      },
+      {
+        "id": "vendOnCardErrors",
+        "label": "Vend On Card Errors",
+        "description": "Rather than vending only when there is a successful card auth; instead vend in any scenario.",
+        "type": "boolean",
+        "value": false
       }
     ],
     "overviewConfigurationIds": [
       "timeoutSeconds",
-      "testMode"
+      "testMode",
+      "vendOnCardErrors"
     ]
   },
   "Settings": {
     "screenAspectRatio": "portrait",
-    "showResources": ["Vending"]
+    "showResources": ["Vending", "Payment"]
   }
 }

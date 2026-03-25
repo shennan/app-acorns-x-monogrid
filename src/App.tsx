@@ -1,10 +1,11 @@
 import './App.scss'
 import { useCallback, useEffect, /* useMemo, */useRef, useState } from 'react'
 import VendOS from '@vendos/js'
+// import { Button } from '@vendos/app-components'
 import { useAsync, useIntervalEffect } from '@react-hookz/web'
-import { AppConfiguration, AppState, Channel, DURATION_FOR_OUTRO } from './constants'
+import { AppConfiguration, AppState, /* BUTTON_CONFIG, */Channel, DURATION_FOR_OUTRO } from './constants'
 import { useRiveMechanic } from './hooks'
-import { getLandingButtonHit, getYearButtonIndex, persistDataToVendOS } from './helpers'
+import { getLandingButtonHit, getYearButtonIndex, persistCardTapResult, persistDataToVendOS } from './helpers'
 
 const App = (config: AppConfiguration): JSX.Element => {
 
@@ -33,6 +34,10 @@ const App = (config: AppConfiguration): JSX.Element => {
 
     if (screen === 'landing') {
 
+      console.log('CLEARING TIMEOUTS')
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = undefined
+
       VendOS.Payment.cancel().catch(() => { /* NOOP */ })
       console.log('SCREEN IS LANDING')
 
@@ -47,53 +52,100 @@ const App = (config: AppConfiguration): JSX.Element => {
 
         triggerLandingButtonPressed()
 
-        console.log('CREATING TIMEOUT')
-        timeoutRef.current = setTimeout(() => {
+        if (timeoutMs) {
 
-          console.log('Choose timeout')
-          setState({ screen: 'landing' })
+          console.log('CREATING CHOOSE TIMEOUT')
 
-        }, timeoutMs)
+          clearTimeout(timeoutRef.current)
+
+          timeoutRef.current = setTimeout(() => {
+
+            console.log('Choose timeout')
+            setState({ screen: 'landing' })
+
+          }, timeoutMs)
+        }
       }
 
     } else if (screen === 'tap') {
 
       console.log('SCREEN IS TAP')
 
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = undefined
-
       // Make sure all variables are fulfilled at this stage
       if (investAmount && typeof pressedButtonIndex !== 'undefined') {
 
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = undefined
+
         triggerUserYearsSelection(investAmount)
 
-        timeoutRef.current = setTimeout(() => {
+        if (timeoutMs) {
 
-          console.log('Payment timeout')
+          console.log('CREATING PAYMENT TIMEOUT')
 
-          setState({ screen: 'landing' })
+          clearTimeout(timeoutRef.current)
 
-        }, timeoutMs)
+          timeoutRef.current = setTimeout(() => {
+
+            console.log('Payment timeout')
+
+            setState({ screen: 'landing' })
+
+          }, timeoutMs)
+        }
 
         VendOS.Payment.cancel().catch(console.error).finally(() => {
 
-          VendOS.Payment.hold({ amount: 100 }).then(() => {
-
-            VendOS.Payment.cancel().catch(console.error)
+          VendOS.Payment.hold({ amount: 100 }).then(async (res) => {
 
             clearTimeout(timeoutRef.current)
             timeoutRef.current = undefined
 
-            setState(state => ({ ...state, screen: 'vend' }))
+            setState(state => {
 
-          }).catch(() => {
+              // Because of timeouts possibly being reached whilst this hold is in flight,
+              // we need to check we're still on the right page before moving on, as it may have
+              // gone back to landing
+
+              if (state.screen === 'tap') {
+
+                persistCardTapResult('success', config)
+
+                return { ...state, screen: 'vend' }
+
+              }
+
+              // Otherwise, change nothing
+              return state
+
+            })
+
+          }).catch((err) => {
 
             clearTimeout(timeoutRef.current)
             timeoutRef.current = undefined
 
-            setState(state => ({ ...state, screen: 'tapFailure' }))
+            console.error(err)
 
+            setState(state => {
+
+              // Because of timeouts possibly being reached whilst this hold is in flight,
+              // we need to check we're still on the right page before moving on, as it may have
+              // gone back to landing
+
+              console.log('Hold error', state.screen)
+
+              if (state.screen === 'tap') {
+
+                persistCardTapResult(config.vendOnCardErrors ? 'success but with tap fault' : 'failure', config)
+
+                return { ...state, screen: config.vendOnCardErrors ? 'vend' : 'tapFailure' }
+              }
+
+              // Otherwise, change nothing
+              return state
+
+            })
           })
         })
       }
@@ -167,6 +219,12 @@ const App = (config: AppConfiguration): JSX.Element => {
 
   }, investAmount ? undefined : 1000)
 
+  useEffect(() => {
+
+    console.log('userYearsValueChanged', userYearsValue?.value)
+
+  }, [userYearsValue])
+
   const onPointerDownCapture = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
 
     /*
@@ -222,6 +280,11 @@ const App = (config: AppConfiguration): JSX.Element => {
               />
             ))
           }
+        </div>
+      )} */}
+      {/* {screen === 'choose' && (
+        <div className="App__landing-button">
+          <Button {...BUTTON_CONFIG}>Back</Button>
         </div>
       )} */}
     </div>
